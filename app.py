@@ -9,15 +9,17 @@ repository = PostRepository()
 @app.route('/', methods=['GET'])
 def get_posts():
     posts = repository.all()
-    return render_template('index.html.jinja2', posts=posts)
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/', methods=['POST'])
 def create_post():
+    tags = request.form['tags'].split(',')
+    strip_tags = [tag.strip()for tag in tags]
     post = Post(None,
                 request.form['title'],
                 request.form['content'],
-                request.form['tags'].split(','))
+                strip_tags)
     post = repository.create(post)
     return redirect(url_for('get_posts'))
 
@@ -25,7 +27,7 @@ def create_post():
 @app.route('/tags/<tag>', methods=['GET'])
 def get_posts_by_tag(tag):
     posts = repository.all_by_tag(tag)
-    return render_template('index.html.jinja2', posts=posts)
+    return render_template('index.html', posts=posts)
 
 
 if __name__ == '__main__':

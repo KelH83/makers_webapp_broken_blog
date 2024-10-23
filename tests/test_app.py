@@ -52,8 +52,8 @@ def test_create_post_with_tags(page, test_web_address):
     page.fill("input[name='tags']", "art")
     page.click("text=Create Post")
     page.goto(f"http://{test_web_address}/tags/music")
-    expect(page.locator(".t-title")).to_have_text("My Day")
-    expect(page.locator(".t-content")).to_have_text("It was a good day")
-    expect(page.locator(".t-title")).not_to_have_text("My Next Day")
-    expect(page.locator(".t-content")).not_to_have_text("It was also a good day")
-
+    expect(page.locator("h2.t-title")).to_be_visible()
+    expect(page.locator("h2.t-title")).to_have_text("My Day")
+    expect(page.locator("p.t-content")).to_have_text("It was a good day")
+    expect(page.locator("h2.t-title")).not_to_have_text("My Next Day")
+    expect(page.locator("p.t-content")).not_to_have_text("It was also a good day")
